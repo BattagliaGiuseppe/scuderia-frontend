@@ -7,7 +7,7 @@ loginForm.addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value;
 
   try {
-    const res = await fetch('https://tuo-backend.onrender.com/login', {
+    const res = await fetch('https://scuderia-backend.onrender.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -26,5 +26,6 @@ loginForm.addEventListener('submit', async (e) => {
     messageDiv.textContent = 'Errore di connessione al backend';
   }
 });
+
 
 
