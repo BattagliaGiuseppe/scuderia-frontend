@@ -13,20 +13,28 @@ import Sidebar from './components/Sidebar';
 function App() {
   return (
     <Router>
-      <div className="flex">
+      <div className="flex min-h-screen">
+        {/* Sidebar laterale */}
         <Sidebar />
-        <div className="flex-1">
+
+        {/* Contenuto principale */}
+        <div className="flex-1 flex flex-col">
+          {/* Navbar in alto */}
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/vehicles" element={<Vehicles />} />
-            <Route path="/components" element={<ComponentsPage />} />
-            <Route path="/maintenances" element={<Maintenances />} />
-            <Route path="/expiring-parts" element={<ExpiringParts />} />
-            <Route path="/races" element={<Races />} />
-            <Route path="/users" element={<Users />} />
-          </Routes>
+
+          {/* Area principale delle pagine */}
+          <div className="flex-1 p-6 bg-gray-100">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/vehicles" element={<Vehicles />} />
+              <Route path="/components" element={<ComponentsPage />} />
+              <Route path="/maintenances" element={<Maintenances />} />
+              <Route path="/expiring-parts" element={<ExpiringParts />} />
+              <Route path="/races" element={<Races />} />
+              <Route path="/users" element={<Users />} />
+            </Routes>
+          </div>
         </div>
       </div>
     </Router>
