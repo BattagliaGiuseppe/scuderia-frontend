@@ -8,9 +8,11 @@ const maintList = document.getElementById('maintList');
 const addVehicleForm = document.getElementById('addVehicleForm');
 const addMaintForm = document.getElementById('addMaintForm');
 const m_vehicle = document.getElementById('m_vehicle');
+const logoutBtn = document.getElementById('logoutBtn');
 
 let token = null;
 
+// --- LOGIN ---
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   msg.textContent = '';
@@ -18,12 +20,11 @@ loginForm.addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value;
 
   try {
-    const res = await fetch(API_BASE + '/api/login', { // endpoint corretto
+    const res = await fetch(API_BASE + '/api/login', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ username: email, password }) // campo corretto
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: email, password })
     });
-
     const data = await res.json();
 
     if (res.ok) {
@@ -33,33 +34,40 @@ loginForm.addEventListener('submit', async (e) => {
       loadVehicles();
       loadMaint();
     } else {
-      msg.textContent = data.error || 'Errore login'; // backend usa "error"
+      msg.textContent = data.error || 'Errore login';
     }
   } catch (err) {
     msg.textContent = 'Errore di connessione';
   }
 });
 
-document.getElementById('logoutBtn').addEventListener('click', () => {
+// --- LOGOUT ---
+logoutBtn.addEventListener('click', () => {
   token = null;
   loginForm.style.display = 'block';
   appArea.style.display = 'none';
 });
 
-// --- Veicoli ---
+// --- VEICOLI ---
 async function loadVehicles() {
   vehiclesList.innerHTML = '';
   m_vehicle.innerHTML = '';
   try {
-    const res = await fetch(API_BASE + '/api/vehicles', { headers: { Authorization: 'Bearer ' + token }});
+    const res = await fetch(API_BASE + '/api/vehicles', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     const data = await res.json();
     data.forEach(v => {
       const li = document.createElement('li');
       li.textContent = `${v.model} — ${v.chassis || ''} (${v.plate || ''})`;
       vehiclesList.appendChild(li);
-      const opt = document.createElement('option'); opt.value = v.id; opt.text = v.model; m_vehicle.appendChild(opt);
+
+      const opt = document.createElement('option');
+      opt.value = v.id;
+      opt.text = v.model;
+      m_vehicle.appendChild(opt);
     });
-  } catch (e) {}
+  } catch (e) { console.error(e); }
 }
 
 addVehicleForm.addEventListener('submit', async (e) => {
@@ -70,30 +78,32 @@ addVehicleForm.addEventListener('submit', async (e) => {
     plate: document.getElementById('v_plate').value
   };
   try {
-    await fetch(API_BASE + '/api/vehicles', { 
-      method:'POST', 
-      headers: { 'Content-Type':'application/json', Authorization: 'Bearer ' + token }, 
-      body: JSON.stringify(payload) 
+    await fetch(API_BASE + '/api/vehicles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify(payload)
     });
-    document.getElementById('v_name').value=''; 
-    document.getElementById('v_chassis').value=''; 
-    document.getElementById('v_plate').value='';
+    document.getElementById('v_name').value = '';
+    document.getElementById('v_chassis').value = '';
+    document.getElementById('v_plate').value = '';
     loadVehicles();
-  } catch (e) {}
+  } catch (e) { console.error(e); }
 });
 
-// --- Manutenzioni ---
+// --- MANUTENZIONI ---
 async function loadMaint() {
   maintList.innerHTML = '';
   try {
-    const res = await fetch(API_BASE + '/api/maintenances', { headers: { Authorization: 'Bearer ' + token }});
+    const res = await fetch(API_BASE + '/api/maintenances', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     const data = await res.json();
     data.forEach(m => {
       const li = document.createElement('li');
-      li.textContent = `${m.date} — ${m.type} — ${m.vehicle_id || '—'}`; // usa vehicle_id
+      li.textContent = `${m.date} — ${m.type} — veicolo: ${m.vehicle_id || '—'}`;
       maintList.appendChild(li);
     });
-  } catch (e) {}
+  } catch (e) { console.error(e); }
 }
 
 addMaintForm.addEventListener('submit', async (e) => {
@@ -102,20 +112,20 @@ addMaintForm.addEventListener('submit', async (e) => {
     vehicle_id: parseInt(document.getElementById('m_vehicle').value || 0),
     type: document.getElementById('m_type').value,
     date: document.getElementById('m_date').value,
-    km: parseInt(document.getElementById('m_km').value || 0), // backend usa km
+    km: parseInt(document.getElementById('m_km').value || 0),
     cost: parseFloat(document.getElementById('m_cost').value || 0),
     notes: ''
   };
   try {
-    await fetch(API_BASE + '/api/maintenances', { 
-      method:'POST', 
-      headers: { 'Content-Type':'application/json', Authorization: 'Bearer ' + token }, 
-      body: JSON.stringify(payload) 
+    await fetch(API_BASE + '/api/maintenances', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify(payload)
     });
-    document.getElementById('m_type').value=''; 
-    document.getElementById('m_date').value=''; 
-    document.getElementById('m_km').value=''; 
-    document.getElementById('m_cost').value='';
+    document.getElementById('m_type').value = '';
+    document.getElementById('m_date').value = '';
+    document.getElementById('m_km').value = '';
+    document.getElementById('m_cost').value = '';
     loadMaint();
-  } catch (e) {}
+  } catch (e) { console.error(e); }
 });
