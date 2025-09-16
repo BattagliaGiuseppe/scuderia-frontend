@@ -20,7 +20,7 @@ loginForm.addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value;
 
   try {
-    const res = await fetch(API_BASE + '/api/login', {
+    const res = await fetch('https://scuderia-backend.onrender.com/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: email, password })
@@ -129,3 +129,4 @@ addMaintForm.addEventListener('submit', async (e) => {
     loadMaint();
   } catch (e) { console.error(e); }
 });
+
