@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://tuo-backend.onrender.com/api'; // Cambia con il tuo URL Render
-
+const API_URL = 'https://scuderia-backend.onrender.com/api';
 export default axios.create({
   baseURL: API_URL
 });
