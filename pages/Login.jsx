@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from '../api/auth';
+import axios from 'axios'; // usa axios direttamente
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
@@ -10,8 +10,16 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/login', { username: email, password });
+      // invia direttamente la richiesta al backend
+      const res = await axios.post('https://scuderia-backend.onrender.com/api/login', {
+        username: email,
+        password
+      });
+
+      // salva token in localStorage
       localStorage.setItem('token', res.data.token);
+
+      // reindirizza alla home
       navigate('/');
     } catch (err) {
       const serverMsg = err?.response?.data?.error || err?.response?.data?.message || err.message || 'Errore login';
