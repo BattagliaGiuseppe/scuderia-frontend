@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import '../styles.css'; // se styles.css è fuori src, usa ../
+import './styles.css'; // styles.css è nello stesso livello di src
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
