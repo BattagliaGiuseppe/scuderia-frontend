@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './styles.css'; // importa il CSS globale
+import '../styles.css'; // se styles.css è fuori src, usa ../
 
-// Crea il root element e monta l'app
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
