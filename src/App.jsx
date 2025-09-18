@@ -36,4 +36,14 @@ function App() {
                 <Route path="/components" element={<ComponentsPage />} />
                 <Route path="/maintenances" element={<Maintenances />} />
                 <Route path="/expiring-parts" element={<ExpiringParts />} />
-                <Route p
+               <Route path="/races" element={<Races />} />
+              <Route path="/users" element={<Users />} />
+            </Routes>
+          </div>
+        </div>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
