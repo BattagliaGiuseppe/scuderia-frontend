@@ -9,7 +9,6 @@ import Races from './pages/Races';
 import Users from './pages/Users';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import PrivateRoute from './components/PrivateRoute'; // Import del componente
 
 function App() {
   return (
@@ -26,17 +25,13 @@ function App() {
           {/* Area principale delle pagine */}
           <div className="flex-1 p-6 bg-gray-100">
             <Routes>
-              {/* Route pubblica */}
+              <Route path="/" element={<Dashboard />} />
               <Route path="/login" element={<Login />} />
-
-              {/* Route protette */}
-              <Route element={<PrivateRoute />}>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/vehicles" element={<Vehicles />} />
-                <Route path="/components" element={<ComponentsPage />} />
-                <Route path="/maintenances" element={<Maintenances />} />
-                <Route path="/expiring-parts" element={<ExpiringParts />} />
-               <Route path="/races" element={<Races />} />
+              <Route path="/vehicles" element={<Vehicles />} />
+              <Route path="/components" element={<ComponentsPage />} />
+              <Route path="/maintenances" element={<Maintenances />} />
+              <Route path="/expiring-parts" element={<ExpiringParts />} />
+              <Route path="/races" element={<Races />} />
               <Route path="/users" element={<Users />} />
             </Routes>
           </div>
