@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from '../api/vehicles';
+import { getVehicles } from '../api/vehicles';
 import VehicleCard from '../components/VehicleCard';
 
 export default function Vehicles() {
@@ -7,9 +7,10 @@ export default function Vehicles() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get('/vehicles', { headers: { Authorization: `Bearer ${token}` } })
-      .then(res => setVehicles(res.data))
-      .catch(err => console.log(err));
+
+    getVehicles(token)
+      .then(data => setVehicles(data))
+      .catch(err => console.error(err));
   }, []);
 
   return (
