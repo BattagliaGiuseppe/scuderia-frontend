@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getVehicles, getExpiringParts } from '../api/vehicles';
+import { getVehicles } from '../api/vehicles';
 import AlertCard from '../components/AlertCard';
 import VehicleCard from '../components/VehicleCard';
 
@@ -12,13 +12,16 @@ export default function Dashboard() {
 
     // Recupera i veicoli
     getVehicles(token)
-      .then(data => setVehicles(data))
-      .catch(err => console.error('Errore veicoli:', err));
+      .then(res => setVehicles(res.data))
+      .catch(err => console.error('Errore caricamento veicoli:', err));
 
     // Recupera le parti in scadenza
-    getExpiringParts(token)
+    fetch('/expiring_parts', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => res.json())
       .then(data => setExpiringParts(data))
-      .catch(err => console.error('Errore scadenze parti:', err));
+      .catch(err => console.error('Errore caricamento scadenze parti:', err));
   }, []);
 
   return (
