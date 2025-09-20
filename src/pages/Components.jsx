@@ -1,23 +1,25 @@
+// src/pages/Components.jsx
 import { useEffect, useState } from 'react';
-import axios from '../api/components';
-import ComponentCard from '../components/ComponentCard';
+import { getComponents } from '../api/components';
 
 export default function ComponentsPage() {
   const [components, setComponents] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    axios.get('/components', { headers: { Authorization: `Bearer ${token}` } })
+    getComponents(token)
       .then(res => setComponents(res.data))
-      .catch(err => console.log(err));
-  }, []);
+      .catch(err => console.error('Errore caricamento componenti:', err));
+  }, [token]);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Componenti Principali</h1>
-      <div className="grid grid-cols-3 gap-4">
-        {components.map(c => <ComponentCard key={c.id} component={c} />)}
-      </div>
+      <h1 className="text-2xl font-bold mb-4">Componenti</h1>
+      <ul>
+        {components.map(c => (
+          <li key={c.id}>{c.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
