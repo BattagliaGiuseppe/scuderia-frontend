@@ -1,23 +1,25 @@
+// src/pages/Maintenances.jsx
 import { useEffect, useState } from 'react';
-import axios from '../api/maintenances';
-import MaintenanceCard from '../components/MaintenanceCard';
+import { getMaintenances } from '../api/maintenances';
 
 export default function Maintenances() {
   const [maintenances, setMaintenances] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    axios.get('/maintenances', { headers: { Authorization: `Bearer ${token}` } })
+    getMaintenances(token)
       .then(res => setMaintenances(res.data))
-      .catch(err => console.log(err));
-  }, []);
+      .catch(err => console.error('Errore caricamento manutenzioni:', err));
+  }, [token]);
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Manutenzioni</h1>
-      <div className="grid grid-cols-3 gap-4">
-        {maintenances.map(m => <MaintenanceCard key={m.id} maintenance={m} />)}
-      </div>
+      <ul>
+        {maintenances.map(m => (
+          <li key={m.id}>{m.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
