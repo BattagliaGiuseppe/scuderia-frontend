@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://scuderia-backend.onrender.com',
+  baseURL: 'https://scuderia-backend.onrender.com/api',
 });
 
 // Richiesta GET di tutti i veicoli
