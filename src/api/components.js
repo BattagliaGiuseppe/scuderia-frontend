@@ -1,10 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API = axios.create({
-  baseURL: "https://scuderia-backend.onrender.com/api"
-});
+const API_URL = 'https://scuderia-backend.onrender.com/api';
 
-export const getComponents = async () => {
-  const res = await API.get("/components");
-  return res.data;
+export const getComponents = (token) => {
+  return axios.get(`${API_URL}/components`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
+
+export const createComponent = (token, data) => {
+  return axios.post(`${API_URL}/components`, data, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
 };
