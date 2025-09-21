@@ -1,15 +1,21 @@
 import axios from 'axios';
 
-const API_URL = 'https://scuderia-backend.onrender.com/api';
+const vehiclesApi = axios.create({
+  baseURL: import.meta.env.VITE_API_URL + '/api',
+});
 
-export const getVehicles = (token) => {
-  return axios.get(`${API_URL}/vehicles`, {
-    headers: { Authorization: `Bearer ${token}` }
+export const getVehicles = async (token) => {
+  const response = await vehiclesApi.get('/vehicles', {
+    headers: { Authorization: `Bearer ${token}` },
   });
+  return response.data;
 };
 
-export const createVehicle = (token, data) => {
-  return axios.post(`${API_URL}/vehicles`, data, {
-    headers: { Authorization: `Bearer ${token}` }
+export const createVehicle = async (token, data) => {
+  const response = await vehiclesApi.post('/vehicles', data, {
+    headers: { Authorization: `Bearer ${token}` },
   });
+  return response.data;
 };
+
+export default vehiclesApi;
