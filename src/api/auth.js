@@ -1,19 +1,17 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: 'https://scuderia-backend.onrender.com/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+const authApi = axios.create({
+  baseURL: import.meta.env.VITE_API_URL + '/api',
 });
 
-// Se hai bisogno di aggiungere il token in automatico a ogni richiesta:
-instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+export const login = async (username, password) => {
+  const response = await authApi.post('/login', { username, password });
+  return response.data;
+};
 
-export default instance;
+export const register = async (username, password, role) => {
+  const response = await authApi.post('/register', { username, password, role });
+  return response.data;
+};
+
+export default authApi;
